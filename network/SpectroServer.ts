@@ -1,5 +1,6 @@
 import { AxerSpectro } from "../core/AxerSpectro";
 import express, { json } from "express";
+import timeout from "connect-timeout";
 import { RouterManager } from "./RouterManager";
 import { LoggerService } from "../helpers/terminal/LoggerService";
 import { authorization } from "./middlewares/authorization";
@@ -20,6 +21,7 @@ export class SpectroServer {
 
     this.router.use("*", json());
     this.router.use("*", authorization);
+    this.router.use(timeout("60s"));
   }
 
   listen() {

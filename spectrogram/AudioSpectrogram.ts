@@ -164,18 +164,19 @@ export class AudioSpectrogram extends EventEmitter {
     this.getImageStaticPathBase.bind(this);
     this.getAudioStaticPathBase.bind(this);
 
-    await this.saveAudio();
+    await this.saveWav();
+    await this.saveAudioFile();
 
     await this.startPythonProcess();
   }
 
-  private saveAudio() {
+  private saveWav() {
     return new Promise((resolve, reject) => {
       this.FFMPEG(this.Audio)
         .saveToFile(
           path.join(
             this.getAudioStaticPathBase(),
-            this.getFileId().concat(`.${this.originalFileType}`)
+            this.getFileId().concat(`.wav`)
           )
         )
         .on("end", resolve)
@@ -216,14 +217,10 @@ export class AudioSpectrogram extends EventEmitter {
           )
         );
 
-        this.emit("data", this.getImage());
-
-        unlinkSync(
-          path.join(
-            this.getAudioStaticPathBase(),
-            this.getFileId().concat(".wav")
-          )
-        );
+        this.emit("data", {
+          image: this.getImage().subarray(),
+          id: this.getFileId(),
+        });
       }
     );
   }

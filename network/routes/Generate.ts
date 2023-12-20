@@ -38,11 +38,11 @@ export const Generate = new Route("/generate", RouteMethod.POST).setExecutable(
           .start()
           .then(() => {
             spectro
-              .on("data", (image: Buffer) => {
+              .on("data", (image: { image: Buffer; id: string }) => {
                 res.status(200).send({
                   status: 200,
                   statusText: "Ok",
-                  data: spectro.deleteFiles(),
+                  data: image,
                 });
 
                 spectro.deleteFiles();
