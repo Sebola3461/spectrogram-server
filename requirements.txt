@@ -2,3 +2,4 @@ matplotlib
 pydub
 scipy
 mutagen
+rich
