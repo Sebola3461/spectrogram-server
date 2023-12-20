@@ -1,1 +1,3 @@
-matplotlib pydub scipy
+matplotlib
+pydub
+scipy
