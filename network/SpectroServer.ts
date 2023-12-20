@@ -2,6 +2,7 @@ import { AxerSpectro } from "../core/AxerSpectro";
 import express, { json } from "express";
 import { RouterManager } from "./RouterManager";
 import { LoggerService } from "../helpers/terminal/LoggerService";
+import { authorization } from "./middlewares/authorization";
 
 export class SpectroServer {
   public axer: AxerSpectro;
@@ -18,6 +19,7 @@ export class SpectroServer {
     this.routerManager = new RouterManager(this.axer, this);
 
     this.router.use("*", json());
+    this.router.use("*", authorization);
   }
 
   listen() {
